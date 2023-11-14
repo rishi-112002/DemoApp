@@ -1,9 +1,19 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Context} from '../App';
+import { RootState, store } from '../reduxIntegration/Store'
+import { inputAuth } from '../reduxIntegration/Reducer';
+import { Context } from '../App';
+import { useSelector, useDispatch } from 'react-redux';
 
 function LoginScreen() {
+
+  const userEmail = useSelector((state: RootState) => state.auth.email)
+  console.log("rootState", userEmail)
+
+  // const userPassword = useSelector((state: RootState) => state.auth.password)
+
+  const dispatch = useDispatch()
   const [email, setEmail] = useState('');
   // const {setuserData} = useContext(Context);
   const [password, setPassword] = useState('');
@@ -16,6 +26,15 @@ function LoginScreen() {
       console.error('not saved in local storage')
     }
   }
+  const handleEmailChange = () => {
+    // console.log("handleEmailChange", email);
+
+    dispatch(inputAuth(email));
+    // dispatch(inputAuth(userEmail(email)))
+  };
+  const handlepasswordChange = () => {
+    dispatch(inputAuth(password))
+  };
   const handleLogin = () => {
     if (!email) {
       Alert.alert("warning", "Please enter E-mail");
@@ -27,6 +46,11 @@ function LoginScreen() {
       return
     }
     saveInputToAsyncStorage();
+    handleEmailChange();
+    handlepasswordChange
+    // console.log("email :", { userEmail })
+    //  console.log("email :", userPassword)
+
     // setuserData(true);
   };
 
@@ -42,6 +66,7 @@ function LoginScreen() {
           value={email}
         />
         <Text style={styles.inputText}>Password</Text>
+        <Text style={styles.inputText}>{userEmail}</Text>
 
         <TextInput
           style={styles.input}

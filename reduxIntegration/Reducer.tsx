@@ -1,5 +1,4 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-
 export const counterSlice = createSlice({
     name: 'counter',
     initialState: {
@@ -24,10 +23,26 @@ export const insertSlice = createSlice({
         number: 0
     },
     reducers: {
-        inputNumber: (state, action:PayloadAction<any>) => {
+        inputNumber: (state, action: PayloadAction<any>) => {
             state.number = action.payload
+        }
+    }
+})
+export const authenction = createSlice({
+    name: 'auth',
+    initialState: {
+        email: '',
+        password: ''
+    },
+    reducers: {
+        inputAuth: (state, action) => {
+            console.log("user details called", state, action);
+            state.email = action.payload.userEmail
+            state.password = action.payload.userPassword
+            
         }
     }
 })
 export const { increment, decrement, incrementByAmount } = counterSlice.actions
 export const { inputNumber } = insertSlice.actions
+export const { inputAuth } = authenction.actions
