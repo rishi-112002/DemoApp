@@ -3,6 +3,8 @@ import {
     View, Text, TouchableOpacity, StyleSheet
 } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { store } from "../../reduxIntegration/Store";
+import { inputAuth } from "../../reduxIntegration/Reducer";
 
 function LogoutScreen() {
     const logoutUser = async () => {
@@ -16,9 +18,18 @@ function LogoutScreen() {
         }
 
     };
+    const handleLogout = () => {
+        const object = {
+            userEmail: '',
+            userPassword: '',
+        }
+        store.dispatch(inputAuth(object))
+
+        logoutUser();
+    };
     return (
         <View style={{ backgroundColor: 'white' }}>
-            <TouchableOpacity style={styles.button} onPress={logoutUser}>
+            <TouchableOpacity style={styles.button} onPress={handleLogout}>
                 <Text style={styles.buttonText}>Logout</Text>
             </TouchableOpacity>
         </View>

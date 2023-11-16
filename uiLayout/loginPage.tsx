@@ -1,10 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RootState, store } from '../reduxIntegration/Store'
 import { inputAuth } from '../reduxIntegration/Reducer';
-import { Context } from '../App';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 function LoginScreen() {
 
@@ -13,7 +12,6 @@ function LoginScreen() {
 
   // const userPassword = useSelector((state: RootState) => state.auth.password)
 
-  const dispatch = useDispatch()
   const [email, setEmail] = useState('');
   // const {setuserData} = useContext(Context);
   const [password, setPassword] = useState('');
@@ -26,15 +24,15 @@ function LoginScreen() {
       console.error('not saved in local storage')
     }
   }
-  const handleEmailChange = () => {
-    // console.log("handleEmailChange", email);
+  const handleAuth= () => {
+    const object = {
+      userEmail: email,
+      userPassword: password,
+  }
+  store.dispatch(inputAuth(object))
+  };
 
-    dispatch(inputAuth(email));
-    // dispatch(inputAuth(userEmail(email)))
-  };
-  const handlepasswordChange = () => {
-    dispatch(inputAuth(password))
-  };
+
   const handleLogin = () => {
     if (!email) {
       Alert.alert("warning", "Please enter E-mail");
@@ -46,12 +44,7 @@ function LoginScreen() {
       return
     }
     saveInputToAsyncStorage();
-    handleEmailChange();
-    handlepasswordChange
-    // console.log("email :", { userEmail })
-    //  console.log("email :", userPassword)
-
-    // setuserData(true);
+    handleAuth();
   };
 
   return (
@@ -101,7 +94,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginStart: 40,
     marginTop: 20,
-    backgroundColor: 'orange',
+    backgroundColor: 'pink',
     alignItems: 'center',
   },
   input: {
@@ -118,6 +111,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     paddingStart: 20,
+    
   },
   button: {
     borderRadius: 20,
@@ -125,9 +119,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   buttonText: {
-    color: 'white',
+    color: 'black',
     backgroundColor: 'orange',
-    borderRadius: 15,
+    borderRadius: 20,
     fontSize: 18,
     padding: 7,
   },

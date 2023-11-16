@@ -16,7 +16,6 @@ export const Context = createContext(false);
 
 function AppNavigation() {
     const [loader, setLoader] = useState(true);
-    const [userData, setuserData] = useState(false);
     const userEmail = useSelector((state: RootState) => {
         console.log('state', state);
 
@@ -30,7 +29,6 @@ function AppNavigation() {
         try {
             const email = await AsyncStorage.getItem('email');
             const password = await AsyncStorage.getItem('password');
-            setuserData(true);
             if (email && password) {
                 // console.log('Email:', email);
                 // console.log('Password:', password);
@@ -40,9 +38,6 @@ function AppNavigation() {
                 }
                 store.dispatch(inputAuth(object))
                 // console.log("object", object);
-            }
-            else {
-                setuserData(false);
             }
             await sleep(2000);
         }
@@ -65,7 +60,7 @@ function AppNavigation() {
         <NavigationContainer>
             {userEmail ? (
                 <Homestack.Navigator>
-                    <Homestack.Screen name='Home' component={HomeScreen} />
+                    <Homestack.Screen name='HomeScreen' component={HomeScreen} />
                 </Homestack.Navigator>
 
             ) : (

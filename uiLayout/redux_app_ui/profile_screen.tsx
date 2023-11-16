@@ -12,9 +12,6 @@ function ProfileScreen() {
 
     })
     const userPassword = useSelector((state: RootState) => { return state.auth.password })
-    // console.log('email', userEmail);
-    // console.log('password', userPassword);
-
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <Text style={styles.tabTextColor}>
