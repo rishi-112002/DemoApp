@@ -1,10 +1,11 @@
 import React from "react";
 import {
-    View, Text, TouchableOpacity, StyleSheet
+    View, Text, TouchableOpacity, StyleSheet, FlatList
 } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { store } from "../../reduxIntegration/Store";
-import { inputAuth } from "../../reduxIntegration/Reducer";
+import { RootState, store } from "../../reduxIntegration/Store";
+import { inputAuth , employersData } from "../../reduxIntegration/Reducer";
+import { useSelector , useDispatch } from "react-redux";
 
 function LogoutScreen() {
     const logoutUser = async () => {
@@ -18,6 +19,7 @@ function LogoutScreen() {
         }
 
     };
+    const {data} = useSelector((state : RootState) => state.empData);
     const handleLogout = () => {
         const object = {
             userEmail: '',
@@ -32,6 +34,14 @@ function LogoutScreen() {
             <TouchableOpacity style={styles.button} onPress={handleLogout}>
                 <Text style={styles.buttonText}>Logout</Text>
             </TouchableOpacity>
+            <FlatList
+            data={data}
+            keyExtractor={({ id }) => id}
+            renderItem={({ item }) => (
+                <Text style={styles.tabTextColor}>
+                    {item}
+                </Text>
+            )}/>
         </View>
 
     )

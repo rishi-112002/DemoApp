@@ -36,13 +36,25 @@ export const authenction = createSlice({
     },
     reducers: {
         inputAuth: (state, action) => {
-            console.log("user details called", state, action);
+          //  console.log("user details called", state, action);
             state.email = action.payload.userEmail
             state.password = action.payload.userPassword
-            
+
+        }
+    }
+})
+export const apiCalling = createSlice({
+    name: "employees",
+    initialState:{
+        data : []} ,
+    reducers: {
+        employersData: (state, action) => {
+            state.data = action.payload
+            console.log("api details" , state)
         }
     }
 })
 export const { increment, decrement, incrementByAmount } = counterSlice.actions
 export const { inputNumber } = insertSlice.actions
 export const { inputAuth } = authenction.actions
+export const {employersData} = apiCalling.actions

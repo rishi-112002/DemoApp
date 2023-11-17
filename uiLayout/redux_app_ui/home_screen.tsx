@@ -3,6 +3,8 @@ import {
     View, Text, StyleSheet, FlatList
 } from 'react-native'
 import { ActivityIndicator } from "react-native-paper";
+import { RootState, store } from '..//../reduxIntegration/Store'
+import { employersData } from '..//../reduxIntegration/Reducer';
 
 
 type employeesData = {
@@ -23,11 +25,12 @@ function HomePage() {
         try {
             const response = await fetch('https://dummy.restapiexample.com/api/v1/employees');
             const json = await response.json();
-
+            console.log("result" ,data.at);
             const filterData = json.data.filter((item: { id: string; employee_age: string }) => parseInt(item.id, 10) <= 10 && parseInt(item.employee_age, 5) < 50);
-            setData(filterData);
-            console.log("data", data);
-
+            setData(json.data);
+            console.log("api data" , json.data);
+            
+            store.dispatch(employersData(json.data))
         } catch (error) {
             console.error(error);
         } finally {
